@@ -1,7 +1,7 @@
 #!/bin/bash
 MEMORY=${1:-8g}
-CONTAINER_NAME=${2:-x11desktop}
-HOME_FOLDER=~/docker_volumes/${CONTAINER_NAME}/home
+DESKTOP_NAME=${2:-x11desktop}
+HOME_FOLDER=~/docker_volumes/${DESKTOP_NAME}/home
 
 # sudo password will be "x11docker"
 
@@ -18,4 +18,4 @@ x11docker \
     seccomp=unconfined \
     -- \
     --shm-size="${MEMORY}" \
-    "${CONTAINER_NAME}"
+    "x11desktop"
