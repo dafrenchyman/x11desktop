@@ -7,12 +7,16 @@ LABEL Version="1.0"
 ARG SLACK_DOWNLOAD 
 ARG SMARTGIT_DOWNLOAD
 ARG PYCHARM_DOWNLOAD
+ARG VS_CODE_DOWNLOAD
+ARG DEBIAN_FRONTEND
 
+ENV SHELL /bin/bash
 ENV LANG en_US.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 ENV SLACK_DOWNLOAD https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.0-amd64.deb
 ENV SMARTGIT_DOWNLOAD https://www.syntevo.com/downloads/smartgit/smartgit-19_1_7.deb
 ENV PYCHARM_DOWNLOAD https://download.jetbrains.com/python/pycharm-community-2020.1.1.tar.gz
+ENV VS_CODE_DOWNLOAD https://go.microsoft.com/fwlink/?LinkID=760868
 
 RUN apt-get update && \
     apt-get install -y \
@@ -29,6 +33,7 @@ RUN apt-get update && \
       psmisc \
       python3-distutils \
       python3-pip \
+      python3-venv \
       sudo \
       vim \
       wget \
@@ -87,6 +92,30 @@ RUN apt-get install -y \
     chromium-browser \
     firefox
 
+###########################################################
+# Install libreoffice
+###########################################################
+RUN apt-get install -y libreoffice
+
+############################################################
+# Install argcomplete and globalize it
+############################################################
+RUN pip3 install argcomplete && \
+    activate-global-python-argcomplete
+
+############################################################
+# Install other dependencies
+############################################################
+RUN apt-get install -y graphviz ttf-ancient-fonts
+
+############################################################
+# Other settings
+############################################################ 
+
+# Disable "Super-L" keybinding for locking screen in container. 
+# It screws up the keyboard
+RUN gsettings set org.mate.Marco.global-keybindings run-command-1 ''
+
 #############################################################
 # Install slack
 #############################################################
@@ -104,6 +133,13 @@ RUN wget --progress=bar:force:noscroll $PYCHARM_DOWNLOAD -O pycharm.tar.gz && \
 
 # To get a desktop icon, on the image 
 COPY jetbrains-pycharm-ce.desktop /usr/share/applications/jetbrains-pycharm-ce.desktop
+
+############################################################
+# Install Visual Studio Code
+############################################################
+RUN wget --progress=bar:force:noscroll $VS_CODE_DOWNLOAD -O vscode.deb && \
+    apt-get install -y ./vscode.deb && \
+    rm ./vscode.deb
 
 ############################################################
 # Install git helpers: smartgit, git-cola
@@ -128,11 +164,6 @@ RUN wget --progress=bar:force:noscroll https://zoom.us/client/latest/zoom_amd64.
     rm ./zoom_amd64.deb
 
 ###########################################################
-# Install libreoffice
-###########################################################
-RUN apt-get install -y libreoffice
-
-###########################################################
 # Install Postman
 ###########################################################
 RUN wget --progress=bar:force:noscroll https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz && \
@@ -147,31 +178,12 @@ COPY ./postman.desktop /usr/share/applications/postman.desktop
 # Install ngrok
 ###########################################################
 RUN wget --progress=bar:force:noscroll https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -O ngrok-stable-linux-amd64.zip && \
-    unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
-
-############################################################
-# Install argcomplete and globalize it
-############################################################
-RUN pip3 install argcomplete && \
-    activate-global-python-argcomplete
+    unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin && \
+    rm ngrok-stable-linux-amd64.zip
 
 ############################################################
 # Install CircleCI command line
 ############################################################
 RUN curl -fLSs https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | bash
-
-############################################################
-# Install other dependencies
-############################################################
-RUN apt-get install -y graphviz ttf-ancient-fonts
-
-############################################################
-# Other settings
-############################################################ 
-
-# Disable "Super-L" keybinding for locking screen in container. 
-# It screws up the keyboard
-RUN gsettings set org.mate.Marco.global-keybindings run-command-1 ''
-
 
 CMD ["mate-session"]
