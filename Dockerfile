@@ -51,6 +51,7 @@ RUN echo $LANG UTF-8 > /etc/locale.gen && \
 # Mate desktop
 #############################################################
 RUN apt-get install -y \
+      fonts-noto-color-emoji \
       fortunes \
       gnome-colors \
       gnome-colors-common \
@@ -106,7 +107,7 @@ RUN pip3 install argcomplete && \
 ############################################################
 # Install other dependencies
 ############################################################
-RUN apt-get install -y graphviz ttf-ancient-fonts
+RUN apt-get install -y graphviz
 
 ############################################################
 # Other settings
