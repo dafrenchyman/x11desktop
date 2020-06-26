@@ -1,8 +1,10 @@
 # x11docker/mate
-FROM ubuntu:bionic
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 
-LABEL Name="x11docker Ubuntu Mate Desktoy"
+LABEL Name="x11docker Ubuntu Mate Desktop GPU"
 LABEL Version="1.0"
+
+ARG ROOT_CONTAINER=ubuntu:bionic-20200112@sha256:bc025862c3e8ec4a8754ea4756e33da6c41cba38330d7e324abd25c8e0b93300
 
 ARG SLACK_DOWNLOAD 
 ARG SMARTGIT_DOWNLOAD
@@ -24,6 +26,7 @@ RUN apt-get update && \
       cmake \
       dbus-x11 \
       git \
+      libcupti-dev \
       libxv1 \
       menu-xdg \
       mime-support \
