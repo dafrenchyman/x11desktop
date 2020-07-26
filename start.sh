@@ -14,6 +14,7 @@ x11docker \
     --share /var/run/docker.sock \
     --home="${HOME_FOLDER}/home" \
     -- \
+    --security-opt seccomp=unconfined \
     -v "${HOME_FOLDER}/mysql":/var/lib/mysql:rw \
     -- \
     --shm-size="${MEMORY}" \
@@ -22,7 +23,3 @@ x11docker \
 # x11docker settings
 #     --hostnet \
     # --init=systemd \
-
-    # Docker settings
-# --security-opt seccomp=unconfined \
-    #

@@ -14,8 +14,9 @@ x11docker \
     --share /var/run/docker.sock \
     --home="${HOME_FOLDER}/home" \
     -- \
+    --security-opt seccomp=unconfined \
     -v "${HOME_FOLDER}/mysql":/var/lib/mysql:rw \
-    -gpus all
--- \
+    --gpus all \
+    -- \
     --shm-size="${MEMORY}" \
     "x11desktop_gpu"
