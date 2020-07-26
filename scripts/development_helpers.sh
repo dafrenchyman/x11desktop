@@ -9,9 +9,15 @@ echo "*******************************************************************"
 SMARTGIT_DOWNLOAD=https://www.syntevo.com/downloads/smartgit/smartgit-19_1_7.deb
 NGROK_DOWNLOAD=https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 POSTMAN_DOWNLOAD=https://dl.pstmn.io/download/latest/linux64
+DBEAVER_DOWNLOAD=https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 
 # Git Cola
 apt-get install -y git-cola
+
+# DBeaver
+wget --progress=bar:force:noscroll $DBEAVER_DOWNLOAD -O dbeaver.deb
+apt-get install -y ./dbeaver.deb
+rm ./dbeaver.deb
 
 # MariaDB
 apt-get install -y mariadb-server

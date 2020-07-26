@@ -16,6 +16,8 @@ apt-get install -y \
     mime-support \
     mesa-utils \
     mesa-utils-extra \
+    openjdk-11-jdk \
+    openjdk-11-jre \
     procps \
     psmisc \
     python3-distutils \
