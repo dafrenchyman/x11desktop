@@ -20,7 +20,7 @@ apt-get install -y ./dbeaver.deb
 rm ./dbeaver.deb
 
 # MariaDB
-apt-get install -y mariadb-server
+apt-get install -y mariadb-server libmariadbclient-dev
 
 # ngrok
 wget --progress=bar:force:noscroll $NGROK_DOWNLOAD -O ngrok-stable-linux-amd64.zip
