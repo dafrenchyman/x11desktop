@@ -1,15 +1,16 @@
 #!/bin/bash
 
-MYSQL_DATA_DIR="/var/lib/mysql"
+MYSQL_DATA_DIR="/config/mysql"
 FIRST_RUN="FALSE"
 
+mkdir -p ${MYSQL_DATA_DIR}
 if [ "$(ls -A $MYSQL_DATA_DIR)" ]; then
     echo "Database already setup"
 else
     echo "*******************************************************************"
     echo "Setting up MariaDB"
     echo "*******************************************************************"
-    mysql_install_db --user="$USER"
+    mysql_install_db --user="$USER" --datadir=${MYSQL_DATA_DIR}
     FIRST_RUN="TRUE"
 fi
 

@@ -6,7 +6,7 @@ echo "*******************************************************************"
 echo "Installing ${SCRIPT_NAME}"
 echo "*******************************************************************"
 
-PYCHARM_DOWNLOAD=https://download.jetbrains.com/python/pycharm-community-2020.1.4.tar.gz
+PYCHARM_DOWNLOAD=https://download.jetbrains.com/python/pycharm-community-2021.2.2.tar.gz
 
 # Download pycharm
 wget --progress=bar:force:noscroll $PYCHARM_DOWNLOAD -O pycharm.tar.gz

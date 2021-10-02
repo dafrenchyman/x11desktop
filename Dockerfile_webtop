@@ -1,8 +1,4 @@
-# x11docker/mate
-FROM ubuntu:bionic
-
-LABEL Name="x11docker Ubuntu Mate Desktoy"
-LABEL Version="1.0"
+FROM linuxserver/webtop:ubuntu-mate
 
 ARG DEBIAN_FRONTEND
 ENV SHELL /bin/bash
@@ -11,13 +7,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /
 
-# Copy scripts
-COPY scripts scripts
-
 # Setup apt-get
 RUN apt-get update
 
 # Common Dependencies
+COPY scripts/common_dependencies.sh scripts/common_dependencies.sh
 RUN ./scripts/common_dependencies.sh
 
 # Language/locale settings
@@ -26,35 +20,27 @@ RUN echo $LANG UTF-8 > /etc/locale.gen && \
       locales && \
     update-locale --reset LANG=$LANG
 
-# Mate desktop
-RUN ./scripts/mate_desktop.sh
-
 # Install docker and docker-compose
+COPY scripts/docker_install.sh scripts/docker_install.sh
 RUN ./scripts/docker_install.sh
 
 # Install Extra Apps
+COPY scripts/extra_apps.sh scripts/extra_apps.sh
 RUN ./scripts/extra_apps.sh
 
-# Install communication (Signal, Skype, Slack, Zoom)
-# RUN ./scripts/communication_install.sh
-
 # Install pycharm
+COPY scripts/pycharm_install.sh scripts/pycharm_install.sh
 RUN ./scripts/pycharm_install.sh
 COPY jetbrains-pycharm-ce.desktop /usr/share/applications/jetbrains-pycharm-ce.desktop
 
 # Install Visual Studio Code
+COPY scripts/vs_code_install.sh scripts/vs_code_install.sh
 RUN ./scripts/vs_code_install.sh
 
-# Install Developement Helpers
+# Install Development Helpers
+COPY scripts/development_helpers.sh scripts/development_helpers.sh
 RUN ./scripts/development_helpers.sh
 COPY ./postman.desktop /usr/share/applications/postman.desktop
 
-############################################################
-# Other settings
-############################################################ 
-
-# Disable "Super-L" keybinding for locking screen in container. 
-# It screws up the keyboard
-RUN gsettings set org.mate.Marco.global-keybindings run-command-1 ''
-
-CMD ["mate-session"]
+# Copy over mysql helper script
+COPY scripts/mysql_start.sh scripts/mysql_start.sh

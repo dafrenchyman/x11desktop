@@ -1,13 +1,12 @@
 # x11docker/mate
 FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
-LABEL Name="x11docker Ubuntu Mate Desktop GPU"
-LABEL Version="1.0"
-
 ARG DEBIAN_FRONTEND
 ENV SHELL /bin/bash
 ENV LANG en_US.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /
 
 # Copy scripts
 COPY scripts scripts
@@ -34,7 +33,7 @@ RUN ./scripts/docker_install.sh
 RUN ./scripts/extra_apps.sh
 
 # Install communication (Signal, Skype, Slack, Zoom)
-RUN ./scripts/communication_install.sh
+# RUN ./scripts/communication_install.sh
 
 # Install pycharm
 RUN ./scripts/pycharm_install.sh

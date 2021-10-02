@@ -20,3 +20,6 @@ x11docker \
     -- \
     --shm-size="${MEMORY}" \
     "x11desktop_gpu"
+
+#
+# --runtime=nvidia \
